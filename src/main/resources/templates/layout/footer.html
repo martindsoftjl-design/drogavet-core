@@ -1,0 +1,36 @@
+<footer th:fragment="footer"
+        xmlns:th="http://www.thymeleaf.org"
+        class="app-footer mt-5">
+
+    <div class="container py-4">
+
+        <div class="row align-items-center gy-3">
+
+            <div class="col-md-6 text-center text-md-start">
+                <h6 class="mb-1 fw-semibold">Laboratorios Drogavet</h6>
+                <p class="small text-muted mb-1">
+                    Sistema Integral del Laboratorio
+                </p>
+                <p class="small text-muted mb-0">
+                    © <span th:text="${#dates.year(#dates.createNow())}"></span>
+                    Todos los derechos reservados
+                </p>
+            </div>
+
+            <div class="col-md-6 text-center text-md-end">
+                <p class="small mb-1">
+                    ✉
+                    <a href="mailto:soporte@drogavet.com" class="footer-link">
+                        soporte@drogavet.com
+                    </a>
+                </p>
+                <p class="small mb-0">
+                    Desarrollado por <strong>Jorge Martin</strong>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>

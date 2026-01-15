@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(
+          ~{::title},
+          ~{::content},
+          ~{},
+          ~{}
+      )}">
+
+<head>
+    <title th:text="${empleado.id != null ? 'Editar Empleado' : 'Nuevo Empleado'}">
+        Empleado
+    </title>
+</head>
+
+<body>
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <h2 class="fw-bold mb-3"
+            th:text="${empleado.id != null ? 'Editar Empleado' : 'Nuevo Empleado'}">
+        </h2>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <form th:action="${empleado.id != null}
+                        ? @{/rrhh/empleados/actualizar/{id}(id=${empleado.id})}
+                        : @{/rrhh/empleados/guardar}"
+                      th:object="${empleado}"
+                      method="post">
+
+                    <!-- ================= DATOS PERSONALES ================= -->
+                    <h6 class="fw-bold text-primary mb-3">Datos personales</h6>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">DNI</label>
+                            <input type="text" th:field="*{dni}" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" th:field="*{nombres}" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Apellidos</label>
+                            <input type="text" th:field="*{apellidos}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Fecha Nacimiento</label>
+                            <input type="date" th:field="*{fechaNacimiento}" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" th:field="*{telefono}" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Email</label>
+                            <input type="email" th:field="*{email}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" th:field="*{direccion}" class="form-control">
+                    </div>
+
+                    <!-- ================= DATOS LABORALES ================= -->
+                    <h6 class="fw-bold text-primary mb-3 mt-4">Datos laborales</h6>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Empresa</label>
+                            <select th:field="*{empresa}" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option th:each="e : ${listaEmpresas}"
+                                        th:value="${e}"
+                                        th:text="${e.razonSocial}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Área</label>
+                            <select th:field="*{area}" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option th:each="a : ${listaAreas}"
+                                        th:value="${a}"
+                                        th:text="${a.nombre}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Cargo</label>
+                            <select th:field="*{cargo}" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option th:each="c : ${cargos}"
+                                        th:value="${c}"
+                                        th:text="${c.descripcion}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Fecha Ingreso</label>
+                            <input type="date" th:field="*{fechaIngreso}" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Tipo Contrato</label>
+                            <select th:field="*{tipoContrato}" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option th:each="t : ${tiposContrato}"
+                                        th:value="${t}"
+                                        th:text="${t}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Régimen Laboral</label>
+                            <select th:field="*{regimenLaboral}" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option th:each="r : ${regimenes}"
+                                        th:value="${r}"
+                                        th:text="${r}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Situación Laboral</label>
+                        <select th:field="*{situacion}" class="form-select">
+                            <option value="">Seleccione</option>
+                            <option th:each="s : ${situaciones}"
+                                    th:value="${s}"
+                                    th:text="${s.descripcion}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- ================= DATOS ADMINISTRATIVOS ================= -->
+                    <h6 class="fw-bold text-primary mb-3 mt-4">Datos administrativos</h6>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Banco</label>
+                            <input type="text" th:field="*{banco}" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Número de Cuenta</label>
+                            <input type="text" th:field="*{numeroCuenta}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sistema de Pensión</label>
+                        <select th:field="*{sistemaPension}" class="form-select" required>
+                            <option value="">Seleccione</option>
+                            <option th:each="sp : ${sistemasPension}"
+                                    th:value="${sp}"
+                                    th:text="${sp}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- ================= CONTACTO EMERGENCIA ================= -->
+                    <h6 class="fw-bold text-primary mb-3 mt-4">Contacto de emergencia</h6>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" th:field="*{contactoEmergenciaNombre}" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Parentesco</label>
+                            <input type="text" th:field="*{contactoEmergenciaParentesco}" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" th:field="*{contactoEmergenciaTelefono}" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- ================= OBSERVACIONES ================= -->
+                    <div class="mb-3">
+                        <label class="form-label">Observaciones</label>
+                        <textarea th:field="*{observaciones}" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <!-- ================= BOTONES ================= -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a th:href="@{/rrhh/empleados}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left-circle"></i> Regresar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

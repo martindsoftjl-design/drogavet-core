@@ -1,0 +1,116 @@
+/* ==============================
+   HOME / DASHBOARD
+   ============================== */
+/* ==============================
+   CONTENEDOR
+   ============================== */
+.dashboard-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+}
+
+/* ==============================
+   HEADER
+   ============================== */
+.dashboard-header {
+    margin-bottom: 35px;
+}
+
+.dashboard-header h2 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.dashboard-subtitle {
+    font-size: 16px;
+    color: #64748B;
+}
+
+/* ==============================
+   TARJETAS
+   ============================== */
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 22px 26px;
+    border-left: 6px solid var(--color);
+
+    box-shadow: 0 10px 20px rgba(0,0,0,.08);
+    transition: .25s ease;
+
+    display: flex;
+    height: 100%;
+    cursor: pointer;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 30px rgba(0,0,0,.12);
+}
+/* ==============================
+   CONTENIDO TARJETA
+   ============================== */
+.dashboard-icon {
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+.dashboard-card .card-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1E293B;
+}
+
+.dashboard-card .card-text {
+    font-size: 15px;
+    line-height: 1.4;
+    color: #64748B;
+}
+
+.card-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-link:hover,
+.card-link:focus,
+.card-link:active,
+.card-link:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ==============================
+   COLORES POR MÓDULO
+   ============================== */
+.dashboard-card.rrhh { --color: var(--rrhh); }
+.dashboard-card.vigilancia { --color: var(--vigilancia); }
+.dashboard-card.mantenimiento { --color: var(--mantenimiento); }
+.dashboard-card.admin { --color: var(--admin); }
+
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 25px;
+    }
+
+    .dashboard-header h2 {
+        font-size: 24px;
+    }
+
+    .dashboard-card {
+        padding: 24px;
+    }
+}
+
+

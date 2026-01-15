@@ -1,0 +1,145 @@
+<header th:fragment="header"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm app-navbar">
+        <div class="container">
+
+            <!-- LOGO -->
+            <a class="navbar-brand fw-bold" th:href="@{/}">
+                Laboratorios Drogavet
+                <span th:if="${module != null and module != 'home'}"
+                      th:text="' | ' + ${module.toUpperCase()}"></span>
+            </a>
+
+            <!-- TOGGLER -->
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="navbarNav" class="collapse navbar-collapse">
+
+                <!-- ================= MENÚ PRINCIPAL ================= -->
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- HOME -->
+                    <li class="nav-item" th:if="${module == 'home'}">
+                        <a class="nav-link" th:href="@{/}">Inicio</a>
+                    </li>
+                    
+                    
+
+                    <!-- RRHH -->
+                    <li class="nav-item" th:if="${module == 'rrhh'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'empleados'} ? ' active'"
+                           th:href="@{/rrhh/empleados}">
+                            Empleados
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${module == 'rrhh'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'vacaciones'} ? ' active'"
+                           th:href="@{/rrhh/vacaciones}">
+                            Vacaciones
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${module == 'rrhh'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'ceses'} ? ' active'"
+                           th:href="@{/rrhh/ceses}">
+                            Cesados
+                        </a>
+                    </li>
+
+                    <!-- VIGILANCIA -->
+                    <li class="nav-item" th:if="${module == 'vigilancia'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'accesos'} ? ' active'"
+                           th:href="@{/vigilancia/accesos}">
+                            Accesos
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${module == 'vigilancia'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'incidentes'} ? ' active'"
+                           th:href="@{/vigilancia/incidentes}">
+                            Incidentes
+                        </a>
+                    </li>
+
+                    <!-- MANTENIMIENTO -->
+                    <li class="nav-item" th:if="${module == 'mantenimiento'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'equipos'} ? ' active'"
+                           th:href="@{/mantenimiento/equipos}">
+                            Equipos
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${module == 'mantenimiento'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'ordenes'} ? ' active'"
+                           th:href="@{/mantenimiento/ordenes}">
+                            Órdenes
+                        </a>
+                    </li>
+
+                    <!-- ADMIN -->
+                    <li class="nav-item" th:if="${module == 'admin'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'usuarios'} ? ' active'"
+                           th:href="@{/admin/usuarios}">
+                            Usuarios
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="${module == 'admin'}">
+                        <a class="nav-link"
+                           th:classappend="${page == 'roles'} ? ' active'"
+                           th:href="@{/admin/roles}">
+                            Roles
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- ================= USUARIO ================= -->
+                <ul class="navbar-nav ms-3" sec:authorize="isAuthenticated()">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown">
+                            <span sec:authentication="name"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" th:href="@{/logout}">
+                                    Cerrar sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <!-- ================= MODO OSCURO ================= -->
+			<ul class="navbar-nav ms-3">
+			    <li class="nav-item d-flex align-items-center">
+			        <div class="form-check form-switch text-white mb-0">
+			            <input class="form-check-input"
+			                   type="checkbox"
+			                   id="themeToggle">
+			            <label class="form-check-label ms-1 small"
+			                   for="themeToggle">
+			                Oscuro
+			            </label>
+			        </div>
+			    </li>
+			</ul>
+                
+
+            </div>
+        </div>
+    </nav>
+
+</header>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(
+          ~{::title},
+          ~{::section},
+          ~{::link},
+          ~{::script}
+      )}">
+
+<head>
+    <!-- Título -->
+    <title>Inicio | Sistema Integral del Laboratorio</title>
+
+    <!-- CSS exclusivo del HOME -->
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+
+<body>
+
+<!-- ================= CONTENIDO ================= -->
+<section class="dashboard-container">
+
+    <!-- Encabezado -->
+    <div class="dashboard-header">
+        <h2>Sistema Integral del Laboratorio</h2>
+        <p class="subtitle">
+            Acceso central a los módulos del sistema
+        </p>
+    </div>
+
+    <!-- Grid de módulos -->
+    <div class="dashboard-grid">
+
+        <!-- RRHH -->
+        <div class="dashboard-card rrhh">
+            <a th:href="@{/rrhh}" class="dashboard-card rrhh card-link">
+                <span class="icon">👥</span>
+                <span class="card-title">Recursos Humanos</span>
+                <span class="card-text">
+                    Gestión de empleados, vacaciones, contratos y datos laborales.
+                </span>
+            </a>
+        </div>
+
+        <!-- Vigilancia -->
+        <div class="dashboard-card vigilancia">
+            <a th:href="@{/vigilancia}" class="dashboard-card vigilancia card-link">
+                <span class="icon">🛡️</span>
+                <span class="card-title">Vigilancia</span>
+                <span class="card-text">
+                    Control de accesos, monitoreo y reportes de seguridad.
+                </span>
+            </a>
+        </div>
+
+        <!-- Mantenimiento -->
+        <div class="dashboard-card mantenimiento">
+            <a th:href="@{/mantenimiento}" class="dashboard-card mantenimiento card-link">
+                <span class="icon">🛠️</span>
+                <span class="card-title">Mantenimiento</span>
+                <span class="card-text">
+                    Gestión de equipos, órdenes de trabajo y revisiones.
+                </span>
+            </a>
+        </div>
+
+        <!-- Administración -->
+        <div class="dashboard-card admin">
+            <a th:href="@{/admin}" class="dashboard-card admin card-link">
+                <span class="icon">⚙️</span>
+                <span class="card-title">Administración</span>
+                <span class="card-text">
+                    Gestión de usuarios, roles y configuración del sistema.
+                </span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= JS ================= -->
+<script th:src="@{/js/home.js}"></script>
+
+</body>
+</html>

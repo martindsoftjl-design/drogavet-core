@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(
+		    ~{::title},
+		    ~{::section},
+		    ~{},
+		    ~{}
+		)}"
+		>
+
+<head>
+    <title>Empleados | RR.HH</title>
+</head>
+
+<section class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-semibold mb-1">Empleados</h2>
+            <p class="text-muted mb-0">
+                Gestión del personal de la empresa
+            </p>
+        </div>
+
+        <a class="btn btn-primary"
+           th:href="@{/rrhh/empleados/nuevo}">
+            <i class="bi bi-plus-circle"></i>
+            Nuevo empleado
+        </a>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>DNI</th>
+                    <th>Empleado</th>
+                    <th>Área</th>
+                    <th>Empresa</th>
+                    <th>Ingreso</th>
+                    <th>Cargo</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="emp : ${empleados}">
+                    <td th:text="${emp.dni}"></td>
+
+                    <td>
+                        <strong th:text="${emp.nombres + ' ' + emp.apellidos}"></strong>
+                    </td>
+
+                    <td th:text="${emp.area != null ? emp.area.nombre : '-'}"></td>
+                    <td th:text="${emp.empresa != null ? emp.empresa.razonSocial : '-'}"></td>
+
+                    <td th:text="${emp.fechaIngreso != null
+                        ? #temporals.format(emp.fechaIngreso, 'dd/MM/yyyy')
+                        : '-'}"></td>
+
+                    <td th:text="${emp.cargo != null ? emp.cargo.descripcion : '-'}"></td>
+
+                    <!-- ESTADO -->
+                    <td>
+                        <span th:if="${!emp.cesado}" class="badge bg-success">
+                            Activo
+                        </span>
+                        <span th:if="${emp.cesado}" class="badge bg-danger">
+                            Cesado
+                        </span>
+                    </td>
+
+                    <!-- ACCIONES -->
+                    <td class="text-center">
+
+                        <!-- ACTIVO -->
+                        <div th:if="${!emp.cesado}" class="btn-group btn-group-sm">
+                            <a th:href="@{/rrhh/empleados/editar/{id}(id=${emp.id})}"
+                               class="btn btn-outline-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a th:href="@{/rrhh/vacaciones/{id}(id=${emp.id})}"
+                               class="btn btn-outline-info">
+                                <i class="bi bi-suitcase-lg"></i>
+                            </a>
+
+                            <form th:action="@{/rrhh/empleados/cesar/{id}(id=${emp.id})}"
+                                  method="post">
+                                <button type="submit"
+                                        class="btn btn-outline-danger"
+                                        title="Cesar empleado">
+                                    <i class="bi bi-person-x"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- CESADO -->
+                        <div th:if="${emp.cesado}">
+                            <form th:action="@{/rrhh/empleados/reactivar/{id}(id=${emp.id})}"
+                                  method="post">
+                                <button class="btn btn-sm btn-outline-success">
+                                    Reactivar
+                                </button>
+                            </form>
+                        </div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+
+</html>
