@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title th:text="${title}">Sistema</title>
+    <title th:text="${title}">RRHH</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -20,22 +20,33 @@
     <!-- CSS por página -->
     <th:block th:replace="${css}"></th:block>
 
+    <!-- Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body class="d-flex flex-column min-vh-100">
+<body class="min-vh-100 d-flex flex-column">
 
-    <!-- HEADER GLOBAL -->
-    <div th:replace="~{layout/header :: header}"></div>
+    <!-- HEADER -->
+    <header th:replace="~{layout/header :: header}"></header>
 
-    <!-- CONTENIDO -->
-    <main class="flex-fill">
-        <div th:insert="${content}"></div>
-    </main>
+    <!-- ================= MAIN ================= -->
+    <div class="d-flex flex-fill rrhh-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="rrhh-sidebar"
+               th:replace="~{rrhh/sidebar :: sidebar}">
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="flex-fill rrhh-content p-4">
+            <div th:insert="${content}"></div>
+        </main>
+
+    </div>
 
     <!-- FOOTER -->
-    <div th:replace="~{layout/footer :: footer}"></div>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -37,11 +37,12 @@ public class AreaServiceImpl implements AreaService{
 	}
 
 	@Override
-	public Area ObtenerPorId(Long id) {
-		// TODO Auto-generated method stub
-		return areaRepository.findById(id)
-			.orElseThrow(()-> new RuntimeException("Area no encontrada"));
+	public Area obtenerPorId(Long id) {
+	    return areaRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Área no encontrada"));
 	}
+
+
 
 	@Override
 	public Area Actualizar(Long id, Area area) {

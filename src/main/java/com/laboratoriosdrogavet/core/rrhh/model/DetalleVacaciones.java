@@ -116,7 +116,7 @@ public class DetalleVacaciones {
     }
 
     // ⚠️ No permitir modificación manual
-    protected void setDiasTomados(int diasTomados) {
+    public void setDiasTomados(int diasTomados) {
         this.diasTomados = diasTomados;
     }
 }

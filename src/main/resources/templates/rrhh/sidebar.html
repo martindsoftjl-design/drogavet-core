@@ -1,0 +1,94 @@
+<aside th:fragment="sidebar"
+       xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+       class="h-100 d-flex flex-column">
+
+    <!-- TÍTULO -->
+    <div class="p-4 border-bottom">
+        <h5 class="mb-0 fw-semibold text-primary">
+            RRHH
+        </h5>
+        <small class="text-muted">
+            Recursos Humanos
+        </small>
+    </div>
+
+    <!-- MENÚ -->
+    <nav class="flex-fill p-3">
+        <ul class="nav nav-pills flex-column gap-1">
+
+            <!-- DASHBOARD -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'dashboard'} ? ' active'"
+                   th:href="@{/rrhh}">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Dashboard
+                </a>
+                <hr class="my-3 opacity-50">
+            </li>
+			
+						<!-- Empresas -->
+			<li class="nav-item">
+			    <a class="nav-link"
+			       th:classappend="${page == 'empresas'} ? ' active'"
+			       th:href="@{/rrhh/empresas}">
+			        <i class="bi bi-building me-2"></i>
+			        Empresas
+			    </a>
+			</li>
+			
+			<!-- Áreas -->
+			<li class="nav-item">
+			    <a class="nav-link"
+			       th:classappend="${page == 'areas'} ? ' active'"
+			       th:href="@{/rrhh/areas}">
+			        <i class="bi bi-diagram-3 me-2"></i>
+			        Áreas
+			    </a>
+			</li>
+
+			
+            
+
+
+            <!-- EMPLEADOS -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'empleados'} ? ' active'"
+                   th:href="@{/rrhh/empleados}">
+                    <i class="bi bi-people me-2"></i>
+                    Empleados
+                </a>
+            </li>
+
+            <!-- VACACIONES -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'vacaciones'} ? ' active'"
+                   th:href="@{/rrhh/vacaciones}">
+                    <i class="bi bi-calendar-check me-2"></i>
+                    Vacaciones
+                </a>
+            </li>
+
+            <!-- CESES -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'ceses'} ? ' active'"
+                   th:href="@{/rrhh/ceses}">
+                    <i class="bi bi-person-dash me-2"></i>
+                    Ceses
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <!-- FOOTER SIDEBAR -->
+    <div class="p-3 border-top small text-muted">
+        <i class="bi bi-shield-lock me-1"></i>
+        Acceso RRHH
+    </div>
+
+</aside>

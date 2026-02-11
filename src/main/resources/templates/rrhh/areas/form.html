@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title th:text="${area.id != null 
+        ? 'Editar Área | RR.HH' 
+        : 'Nueva Área | RR.HH'}">
+    </title>
+</head>
+
+<div th:fragment="content" class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h2 class="fw-semibold mb-1"
+            th:text="${area.id != null ? 'Editar área' : 'Nueva área'}">
+        </h2>
+        <p class="text-muted mb-0">
+            Registro y mantenimiento de áreas
+        </p>
+    </div>
+
+    <!-- FORM -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form th:action="@{/rrhh/areas/guardar}"
+                  th:object="${area}"
+                  method="post">
+
+                <input type="hidden" th:field="*{id}"/>
+
+                <!-- NOMBRE -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Nombre del área
+                    </label>
+
+                    <input type="text"
+                           th:field="*{nombre}"
+                           class="form-control"
+                           placeholder="Ej. Recursos Humanos"
+                           required>
+
+                    <div class="text-danger small mt-1"
+                         th:if="${#fields.hasErrors('nombre')}"
+                         th:errors="*{nombre}">
+                    </div>
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-between mt-4">
+
+                    <a th:href="@{/rrhh/areas}"
+                       class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>
+                        Guardar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</html>

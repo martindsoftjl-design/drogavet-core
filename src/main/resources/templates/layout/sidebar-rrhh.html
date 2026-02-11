@@ -1,0 +1,86 @@
+<aside th:fragment="sidebar"
+       xmlns:th="http://www.thymeleaf.org"
+       class="app-sidebar border-end">
+
+    <div class="p-3">
+
+        <!-- TÍTULO MÓDULO -->
+        <div class="sidebar-title mb-3">
+            <span class="fw-semibold text-uppercase small text-muted">
+                Recursos Humanos
+            </span>
+        </div>
+
+        <!-- MENÚ -->
+        <ul class="nav nav-pills flex-column gap-1">
+
+            <!-- DASHBOARD -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'dashboard'} ? ' active'"
+                   th:href="@{/rrhh}">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <!-- EMPLEADOS -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'empleados'} ? ' active'"
+                   th:href="@{/rrhh/empleados}">
+                    <i class="bi bi-people me-2"></i>
+                    Empleados
+                </a>
+            </li>
+
+            <!-- ÁREAS -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'areas'} ? ' active'"
+                   th:href="@{/rrhh/areas}">
+                    <i class="bi bi-diagram-3 me-2"></i>
+                    Áreas
+                </a>
+            </li>
+
+            <!-- VACACIONES -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'vacaciones'} ? ' active'"
+                   th:href="@{/rrhh/vacaciones}">
+                    <i class="bi bi-calendar2-week me-2"></i>
+                    Vacaciones
+                </a>
+            </li>
+
+            <!-- SOLICITUDES -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'solicitudes'} ? ' active'"
+                   th:href="@{/rrhh/solicitudes}">
+                    <i class="bi bi-inbox me-2"></i>
+                    Solicitudes
+                </a>
+            </li>
+
+            <li class="nav-item">
+    			<hr class="my-3">
+			</li>
+
+
+            <!-- CONFIGURACIÓN -->
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${page == 'configuracion'} ? ' active'"
+                   th:href="@{/rrhh/configuracion}">
+                    <i class="bi bi-gear me-2"></i>
+                    Configuración
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</aside>

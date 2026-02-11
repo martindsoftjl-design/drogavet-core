@@ -3,57 +3,67 @@ package com.laboratoriosdrogavet.core.rrhh.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.laboratoriosdrogavet.core.rrhh.model.Empresa;
 import com.laboratoriosdrogavet.core.rrhh.repository.EmpresaRepository;
 import com.laboratoriosdrogavet.core.rrhh.service.EmpresaService;
 
 @Service
-public class EmpresaServiceImpl implements EmpresaService{
-	
-	private final EmpresaRepository empresaRepository;
-	
-	public EmpresaServiceImpl(EmpresaRepository empresaRepository) {
-		this.empresaRepository=empresaRepository;
-	}
+@Transactional
+public class EmpresaServiceImpl implements EmpresaService {
 
-	@Override
-	public List<Empresa> ListarTodas() {
-		
-		return empresaRepository.findAll();
-	}
+    private final EmpresaRepository empresaRepository;
 
-	@Override
-	public Empresa Guardar(Empresa empresa) {
-		
-		return empresaRepository.save(empresa);
-	}
+    public EmpresaServiceImpl(EmpresaRepository empresaRepository) {
+        this.empresaRepository = empresaRepository;
+    }
 
-	@Override
-	public Empresa Actualizar(Long id, Empresa empresa) {
-		
-		return null;
-	}
+    @Override
+    public List<Empresa> listarTodas() {
+        return empresaRepository.findAll();
+    }
 
-	@Override
-	public Empresa ObtenerPorId(Long id) {
-		
-		return empresaRepository.findById(id)
-				.orElseThrow(()-> new RuntimeException("Empresa no encontrada"));
-	}
+    @Override
+    public Empresa guardar(Empresa empresa) {
+        return empresaRepository.save(empresa);
+    }
 
-	@Override
-	public void Eliminar(Long id) {
-		empresaRepository.deleteById(id);
-		
-	}
+    @Override
+    public Empresa actualizar(Long id, Empresa empresa) {
 
-	@Override
-	public Boolean EmpresaExiste(String ruc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+        Empresa empresaExistente = empresaRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Empresa no encontrada con id: " + id)
+                );
 
+        empresaExistente.setRuc(empresa.getRuc());
+        empresaExistente.setRazonSocial(empresa.getRazonSocial());
+        empresaExistente.setNombreComercial(empresa.getNombreComercial());
+        empresaExistente.setDireccion(empresa.getDireccion());
+        empresaExistente.setActivo(empresa.isActivo());
+
+        return empresaRepository.save(empresaExistente);
+    }
+
+    @Override
+    public Empresa obtenerPorId(Long id) {
+        return empresaRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Empresa no encontrada con id: " + id)
+                );
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!empresaRepository.existsById(id)) {
+            throw new RuntimeException("Empresa no encontrada con id: " + id);
+        }
+        empresaRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean empresaExiste(String ruc) {
+        return empresaRepository.existsByRuc(ruc);
+    }
 }

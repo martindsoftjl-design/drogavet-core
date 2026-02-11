@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.laboratoriosdrogavet.core.rrhh.model.Empleado;
 import com.laboratoriosdrogavet.core.rrhh.repository.EmpleadoRepository;
 import com.laboratoriosdrogavet.core.rrhh.service.EmpleadoService;
+import com.laboratoriosdrogavet.core.rrhh.service.PeriodoVacacionesService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class EmpleadoServiceImpl implements EmpleadoService {
 
     private final EmpleadoRepository empleadoRepository;
-
+    private final PeriodoVacacionesService periodoService; 
     // =========================
     // CRUD
     // =========================
@@ -38,7 +39,13 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         empleado.setFechaCese(null);
         empleado.setMotivoCese(null);
 
-        return empleadoRepository.save(empleado);
+        // Guardar empleado
+        Empleado guardado = empleadoRepository.save(empleado);
+
+        // Generar períodos automáticamente
+        periodoService.asegurarPeriodosHastaHoy(guardado);
+
+        return guardado;
     }
 
     @Override
@@ -86,7 +93,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Transactional(readOnly = true)
     public Empleado obtenerPorId(Long id) {
         return empleadoRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+        		.orElseThrow(() ->
+                new IllegalArgumentException("Empleado no encontrado "));
+            
     }
 
     @Override

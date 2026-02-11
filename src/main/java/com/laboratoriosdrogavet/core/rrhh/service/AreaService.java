@@ -10,6 +10,7 @@ public interface AreaService {
 	Area Guardar(Area area);
 	Area Actualizar(Long id, Area area);
 	void Eliminar(Long id);
-	Area ObtenerPorId(Long id);
+	Area obtenerPorId(Long id);
+
 
 }

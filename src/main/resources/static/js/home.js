@@ -38,3 +38,15 @@ function cargarResumenDashboard() {
         })
         .catch(error => console.error("Error cargando resumen", error));
 }
+
+		/*(ocultar AFP si es ONP)*/
+    const sistema = document.querySelector('[name="sistemaPension"]');
+    const afpDiv = document.querySelector('[name="afp"]').closest('.col-md-6');
+
+    function toggleAfp() {
+        afpDiv.style.display = sistema.value === 'AFP' ? 'block' : 'none';
+    }
+
+    sistema.addEventListener('change', toggleAfp);
+    document.addEventListener('DOMContentLoaded', toggleAfp);
+

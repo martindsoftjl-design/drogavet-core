@@ -8,18 +8,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/rrhh")
 public class RRHHController {
-	
-	 @GetMapping
-	    public String index() {
-	        return "rrhh/index";
-	    }
-	
-	@GetMapping("/rrhh/empleados")
-	public String empleados(Model model) {
-	    model.addAttribute("module", "rrhh");
-	    model.addAttribute("page", "empleados");
-	    return "rrhh/empleados";
-	}
 
+    /* =========================
+     * DASHBOARD RRHH
+     * ========================= */
+    @GetMapping
+    public String index(Model model) {
+        model.addAttribute("page", "dashboard");
+        return "rrhh/index";
+    }
 
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+        model.addAttribute("page", "dashboard");
+        return "rrhh/dashboard";
+    }
+
+    /* =========================
+     * VACACIONES (MENÚ)
+     * ========================= */
+    @GetMapping("/vacaciones")
+    public String vacacionesIndex(Model model) {
+        model.addAttribute("page", "vacaciones");
+        return "rrhh/vacaciones/index";
+    }
 }
+

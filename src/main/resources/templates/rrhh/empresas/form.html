@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title th:text="${empresa.id != null
+            ? 'Editar Empresa | RR.HH'
+            : 'Nueva Empresa | RR.HH'}">
+    </title>
+</head>
+
+<div th:fragment="content" class="container py-4">
+
+    <!-- HEADER -->
+    <div class="mb-4">
+        <h2 class="fw-semibold mb-1"
+            th:text="${empresa.id != null
+                ? 'Editar empresa'
+                : 'Registrar nueva empresa'}">
+        </h2>
+        <p class="text-muted mb-0">
+            Registro y mantenimiento de empresas
+        </p>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form th:action="@{/rrhh/empresas/guardar}"
+                  th:object="${empresa}"
+                  method="post">
+
+                <!-- ID oculto -->
+                <input type="hidden" th:field="*{id}"/>
+
+                <h6 class="fw-bold text-primary mb-3">
+                    Datos legales
+                </h6>
+
+                <div class="row mb-3">
+
+                    <!-- RUC -->
+                    <div class="col-md-4">
+                        <label class="form-label">RUC</label>
+                        <input type="text"
+                               th:field="*{ruc}"
+                               class="form-control"
+                               maxlength="11"
+                               placeholder="11 dígitos"
+                               th:classappend="${#fields.hasErrors('ruc')} ? ' is-invalid'">
+                        <div class="invalid-feedback"
+                             th:errors="*{ruc}">
+                        </div>
+                    </div>
+
+                    <!-- RAZÓN SOCIAL -->
+                    <div class="col-md-8">
+                        <label class="form-label">Razón social</label>
+                        <input type="text"
+                               th:field="*{razonSocial}"
+                               class="form-control"
+                               placeholder="Razón social completa"
+                               th:classappend="${#fields.hasErrors('razonSocial')} ? ' is-invalid'">
+                        <div class="invalid-feedback"
+                             th:errors="*{razonSocial}">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3">
+
+                    <!-- NOMBRE COMERCIAL -->
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre comercial</label>
+                        <input type="text"
+                               th:field="*{nombreComercial}"
+                               class="form-control"
+                               placeholder="Opcional">
+                    </div>
+
+                    <!-- DIRECCIÓN -->
+                    <div class="col-md-6">
+                        <label class="form-label">Dirección</label>
+                        <input type="text"
+                               th:field="*{direccion}"
+                               class="form-control"
+                               placeholder="Dirección legal"
+                               th:classappend="${#fields.hasErrors('direccion')} ? ' is-invalid'">
+                        <div class="invalid-feedback"
+                             th:errors="*{direccion}">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <!-- ESTADO -->
+                    <div class="col-md-4">
+                        <label class="form-label">Estado</label>
+                        <select th:field="*{activo}" class="form-select">
+                            <option th:value="true">Activa</option>
+                            <option th:value="false">Inactiva</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex justify-content-between mt-4">
+
+                    <a th:href="@{/rrhh/empresas}"
+                       class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i>
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i>
+                        <span th:text="${empresa.id != null ? 'Actualizar' : 'Guardar'}"></span>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</html>

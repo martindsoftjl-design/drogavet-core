@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<body>
+
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <!-- TÍTULO -->
+        <div class="mb-4">
+            <h3 class="fw-bold mb-0">Dashboard de Vacaciones</h3>
+            <small class="text-muted">
+                Resumen general del estado actual
+            </small>
+        </div>
+
+        <!-- TARJETAS -->
+        <div class="row g-4">
+
+            <!-- VACACIONES HOY -->
+            <div class="col-md-3">
+                <div class="card shadow-sm border-success h-100">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">🏖️</div>
+                        <h6 class="text-muted">De vacaciones hoy</h6>
+                        <h3 class="fw-bold" th:text="${vacacionesHoy ?: 0}"></h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PENDIENTES -->
+            <div class="col-md-3">
+                <div class="card shadow-sm border-warning h-100">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">⏳</div>
+                        <h6 class="text-muted">Solicitudes pendientes</h6>
+                        <h3 class="fw-bold" th:text="${pendientes ?: 0}"></h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRUCES -->
+            <div class="col-md-3">
+                <div class="card shadow-sm border-danger h-100">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">⚠️</div>
+                        <h6 class="text-muted">Cruces detectados</h6>
+                        <h3 class="fw-bold" th:text="${cruces ?: 0}"></h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMPLEADOS -->
+            <div class="col-md-3">
+                <div class="card shadow-sm border-primary h-100">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">👥</div>
+                        <h6 class="text-muted">Empleados activos</h6>
+                        <h3 class="fw-bold" th:text="${totalEmpleados ?: 0}"></h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="mt-4 d-flex justify-content-between">
+
+            <a th:href="@{/rrhh}"
+               class="btn btn-outline-secondary">
+                Volver a RRHH
+            </a>
+
+            <a th:href="@{/rrhh/vacaciones/solicitudes/lista}"
+               class="btn btn-primary">
+                Ver solicitudes detalladas
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

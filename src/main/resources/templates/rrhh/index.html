@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/layout :: layout(
+      th:replace="~{layout/layout-rrhh :: layout(
           ~{::title},
           ~{::content},
           ~{},
@@ -20,60 +20,101 @@
 
         <div class="row g-4">
 
+            <!-- DASHBOARD -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative border-primary">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">📊</div>
+                        <h5 class="card-title">Dashboard RRHH</h5>
+                        <p class="card-text text-muted">
+                            Indicadores y estado general del módulo.
+                        </p>
+                        <a th:href="@{/rrhh/dashboard}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
             <!-- EMPLEADOS -->
             <div class="col-md-4">
-                <a th:href="@{/rrhh/empleados}" class="text-decoration-none">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body text-center">
-                            <div class="fs-1 mb-2">👤</div>
-                            <h5 class="card-title">Empleados</h5>
-                            <p class="card-text text-muted">
-                                Registro, edición, cese y datos laborales.
-                            </p>
-                        </div>
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">👤</div>
+                        <h5 class="card-title">Empleados</h5>
+                        <p class="card-text text-muted">
+                            Registro, edición y datos laborales.
+                        </p>
+                        <a th:href="@{/rrhh/empleados}" class="stretched-link"></a>
                     </div>
-                </a>
+                </div>
             </div>
 
             <!-- VACACIONES -->
             <div class="col-md-4">
-                <a th:href="@{/rrhh/vacaciones}" class="text-decoration-none">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body text-center">
-                            <div class="fs-1 mb-2">🏖️</div>
-                            <h5 class="card-title">Vacaciones</h5>
-                            <p class="card-text text-muted">
-                                Periodos, solicitudes y control de días.
-                            </p>
-                        </div>
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">🏖️</div>
+                        <h5 class="card-title">Vacaciones</h5>
+                        <p class="card-text text-muted">
+                            Periodos, solicitudes y control de días.
+                        </p>
+                        <a th:href="@{/rrhh/vacaciones}" class="stretched-link"></a>
                     </div>
-                </a>
+                </div>
             </div>
 
-            <!-- CONTRATOS (FUTURO) -->
+            <!-- EMPRESAS -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">🏢</div>
+                        <h5 class="card-title">Empresas</h5>
+                        <p class="card-text text-muted">
+                            Gestión de empresas del grupo.
+                        </p>
+                        <a th:href="@{/rrhh/empresas}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÁREAS -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-1 mb-2">🧩</div>
+                        <h5 class="card-title">Áreas</h5>
+                        <p class="card-text text-muted">
+                            Gestión de áreas por empresa.
+                        </p>
+                        <a th:href="@{/rrhh/areas}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTRATOS -->
             <div class="col-md-4">
                 <div class="card shadow-sm h-100 border-secondary">
                     <div class="card-body text-center text-muted">
                         <div class="fs-1 mb-2">📄</div>
                         <h5 class="card-title">Contratos</h5>
-                        <p class="card-text">
-                            Próximamente
-                        </p>
+                        <p class="card-text">Próximamente</p>
                     </div>
                 </div>
             </div>
 
         </div>
+        
+        
 
-        <!-- BOTÓN REGRESAR -->
-        <div class="mt-4">
-            <a th:href="@{/}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left-circle"></i> Volver al inicio
-            </a>
-        </div>
-
+        <!-- VOLVER -->
+    <div class="mt-4">
+        <a th:href="@{/}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Volver al inicio
+        </a>
     </div>
 
+</div>
 </div>
 </body>
 </html>

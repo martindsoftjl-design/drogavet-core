@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Solicitudes de Vacaciones</title>
+</head>
+
+<body>
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="fw-bold mb-0">Solicitudes de Vacaciones</h3>
+                <small class="text-muted">Gestión y aprobación de solicitudes</small>
+            </div>
+
+            <a th:href="@{/rrhh/vacaciones}"
+               class="btn btn-secondary">
+                Volver
+            </a>
+        </div>
+
+        <!-- FILTROS -->
+        <form method="get"
+      			th:action="@{/rrhh/vacaciones/solicitudes}"
+              class="row g-3 mb-4">
+
+            <!-- ÁREA -->
+            <div class="col-md-4">
+                <label class="form-label">Área</label>
+                <select name="areaId" class="form-select">
+                    <option value="">Todas</option>
+                    <option th:each="a : ${areas}"
+                            th:value="${a.id}"
+                            th:text="${a.nombre}"
+                            th:selected="${param.areaId == a.id}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- ESTADO -->
+            <div class="col-md-4">
+                <label class="form-label">Estado</label>
+                <select name="estado" class="form-select">
+                    <option value="">Todos</option>
+                    <option th:each="e : ${estados}"
+                            th:value="${e}"
+                            th:text="${e}"
+                            th:selected="${param.estado == e.name()}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- BOTÓN -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    Filtrar
+                </button>
+            </div>
+
+        </form>
+
+        <!-- TABLA -->
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Empleado</th>
+                            <th>Área</th>
+                            <th>Periodo</th>
+                            <th>Fechas</th>
+                            <th>Días</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each="s : ${solicitudes}">
+                            <td th:text="${s.periodo.empleado.nombres + ' ' + s.periodo.empleado.apellidos}"></td>
+                            <td th:text="${s.periodo.empleado.area.nombre}"></td>
+                            <td th:text="${s.periodo.anioInicio + ' - ' + s.periodo.anioFin}"></td>
+                            <td th:text="${#temporals.format(s.fechaInicio,'dd/MM/yyyy')
+                                           + ' → ' +
+                                           #temporals.format(s.fechaFin,'dd/MM/yyyy')}">
+                            </td>
+                            <td th:text="${s.diasTomados}"></td>
+
+                            <!-- ESTADO -->
+                            <td>
+                                <span class="badge"
+                                      th:text="${s.estado}"
+                                      th:classappend="
+                                          ${s.estado.name() == 'APROBADO'} ? ' bg-success' :
+                                          ${s.estado.name() == 'PENDIENTE'} ? ' bg-warning text-dark' :
+                                          ' bg-danger'">
+                                </span>
+                            </td>
+
+                            <!-- ACCIONES -->
+                            <td class="text-center">
+
+                                <a th:href="@{/rrhh/vacaciones/solicitudes/{id}(id=${s.id})}"
+                                   class="btn btn-sm btn-outline-primary me-1">
+                                    Ver
+                                </a>
+
+                                <!-- APROBAR -->
+                                <form th:if="${s.estado == T(com.laboratoriosdrogavet.core.rrhh.enums.EstadoVacaciones).PENDIENTE}"
+                                      th:action="@{/rrhh/vacaciones/solicitudes/{id}/aprobar(id=${s.id})}"
+                                      method="post"
+                                      class="d-inline"
+                                      onsubmit="return confirm('¿Aprobar esta solicitud?');">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}" />
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-success me-1">
+                                        Aprobar
+                                    </button>
+                                </form>
+
+                                <!-- RECHAZAR -->
+                                <form th:if="${s.estado == T(com.laboratoriosdrogavet.core.rrhh.enums.EstadoVacaciones).PENDIENTE}"
+                                      th:action="@{/rrhh/vacaciones/solicitudes/{id}/rechazar(id=${s.id})}"
+                                      method="post"
+                                      class="d-inline"
+                                      onsubmit="return confirm('¿Rechazar esta solicitud?');">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}" />
+
+                                    <input type="hidden"
+                                           name="motivo"
+                                           value="Rechazado por RRHH"/>
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-danger">
+                                        Rechazar
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(solicitudes)}">
+                            <td colspan="7"
+                                class="text-center text-muted py-4">
+                                No hay solicitudes registradas
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

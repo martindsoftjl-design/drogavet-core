@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Dashboard RRHH</title>
+</head>
+
+<body>
+<div th:fragment="content" class="container py-4">
+
+    <div class="container mt-4">
+
+        <!-- HEADER -->
+        <div class="mb-4">
+            <h3 class="fw-bold mb-0">Dashboard de Recursos Humanos</h3>
+            <small class="text-muted">
+                Resumen general del módulo
+            </small>
+        </div>
+
+        <!-- KPIs -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-2">👤</div>
+                        <h6 class="mt-2">Empleados activos</h6>
+                        <h4 class="fw-bold"
+                            th:text="${totalEmpleados ?: 0}">
+                            0
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-2">🏖️</div>
+                        <h6 class="mt-2">En vacaciones hoy</h6>
+                        <h4 class="fw-bold"
+                            th:text="${empleadosEnVacaciones ?: 0}">
+                            0
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-2">⏳</div>
+                        <h6 class="mt-2">Solicitudes pendientes</h6>
+                        <h4 class="fw-bold text-warning"
+                            th:text="${solicitudesPendientes ?: 0}">
+                            0
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-2">📅</div>
+                        <h6 class="mt-2">Periodos activos</h6>
+                        <h4 class="fw-bold"
+                            th:text="${periodosActivos ?: 0}">
+                            0
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ALERTAS -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <strong>Alertas</strong>
+            </div>
+            <div class="card-body">
+
+                <div th:if="${#lists.isEmpty(alertas)}"
+                     class="text-muted">
+                    No hay alertas activas
+                </div>
+
+                <ul class="list-group list-group-flush"
+                    th:if="${!#lists.isEmpty(alertas)}">
+
+                    <li class="list-group-item"
+                        th:each="a : ${alertas}">
+                        ⚠️
+                        <span th:text="${a}"></span>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <div class="row g-3">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-2 mb-2">👤</div>
+                        <h6>Gestionar empleados</h6>
+
+                        <a th:href="@{/rrhh/empleados}"
+                           class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-2 mb-2">🏖️</div>
+                        <h6>Gestión de vacaciones</h6>
+
+                        <a th:href="@{/rrhh/vacaciones}"
+                           class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🔧 RUTA CORREGIDA AQUÍ -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 position-relative">
+                    <div class="card-body text-center">
+                        <div class="fs-2 mb-2">📄</div>
+                        <h6>Solicitudes pendientes</h6>
+
+                        <a th:href="@{/rrhh/vacaciones/solicitudes/dashboard}"
+                           class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- VOLVER -->
+    <div class="mt-4">
+        <a th:href="@{/rrhh}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Volver a Menu RR.HH
+        </a>
+    </div>
+
+    </div>
+
+</div>
+</body>
+</html>

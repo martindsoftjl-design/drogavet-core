@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Periodos de Vacaciones</title>
+</head>
+
+<body>
+<div th:fragment="content" class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-0">Períodos de Vacaciones</h4>
+            <small class="text-muted"
+                   th:text="${empleado.nombres + ' ' + empleado.apellidos}">
+            </small>
+        </div>
+        
+        <!-- BOTÓN GENERAR PERIODOS -->
+    <form th:action="@{/rrhh/vacaciones/periodos/empleado/{id}/generar-periodos(id=${empleado.id})}"
+          method="post"
+          onsubmit="return confirm('¿Generar / regularizar períodos automáticamente?');">
+
+        <!-- CSRF -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+
+        <button class="btn btn-success">
+
+            <!-- Icono Bootstrap opcional -->
+            <i class="bi bi-calendar-plus me-1"></i>
+
+            Generar períodos
+        </button>
+
+    </form>
+        
+    </div>
+
+    <!-- SALDO TOTAL -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted mb-1">Saldo Total Disponible</h6>
+
+                    <h2 class="fw-bold mb-0"
+                        th:text="${saldoTotal}"
+                        th:classappend="
+                            ${saldoTotal > 0} ? ' text-success' :
+                            (${saldoTotal == 0} ? ' text-secondary' : ' text-danger')">
+                    </h2>
+
+                    <small class="text-muted">días</small>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white fw-semibold">
+            Historial de Períodos
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+                <tr>
+                    <th>Período</th>
+                    <th class="text-center">Saldo</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="p : ${periodos}">
+
+                    <!-- RANGO FECHAS -->
+                    <td>
+                        <span th:text="${#temporals.format(p.fechaInicio,'dd/MM/yyyy')}"></span>
+                        <span class="mx-1">→</span>
+                        <span th:text="${#temporals.format(p.fechaFin,'dd/MM/yyyy')}"></span>
+                    </td>
+
+                    <!-- SALDO -->
+                    <td class="text-center fw-semibold"
+                        th:text="${p.saldo}"
+                        th:classappend="
+                            ${p.saldo > 0} ? ' text-success' :
+                            (${p.saldo == 0} ? ' text-secondary' : ' text-danger')">
+                    </td>
+
+                    <!-- ESTADO -->
+                    <td class="text-center">
+                        <span class="badge px-3 py-2"
+                              th:text="${p.estado}"
+                              th:classappend="
+                                ${p.estado.name() == 'ACTIVO'}
+                                ? ' bg-success'
+                                : ' bg-secondary'">
+                        </span>
+                    </td>
+
+                    <!-- ACCIONES -->
+                    <td class="text-end">
+
+                        <!-- VER -->
+                        <a th:href="@{/rrhh/vacaciones/periodos/{id}(id=${p.id})}"
+                           class="btn btn-sm btn-outline-primary">
+                            Ver
+                        </a>
+
+                        <!-- CERRAR -->
+                        <form th:if="${p.estado.name() == 'ACTIVO'}"
+                              th:action="@{/rrhh/vacaciones/periodos/{id}/cerrar(id=${p.id})}"
+                              method="post"
+                              class="d-inline"
+                              onsubmit="return confirm('¿Cerrar este período?');">
+
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}" />
+
+                            <button class="btn btn-sm btn-outline-danger">
+                                Cerrar
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+
+                <!-- SIN DATOS -->
+                <tr th:if="${#lists.isEmpty(periodos)}">
+                    <td colspan="4" class="text-center text-muted py-4">
+                        No existen períodos registrados
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- VOLVER -->
+    <div class="mt-4">
+        <a th:href="@{/rrhh/vacaciones}" class="btn btn-secondary">
+            Volver
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Historial de Vacaciones</title>
+</head>
+
+<body>
+<div th:fragment="content" class="container py-4">
+
+    <div class="container mt-4">
+
+        <!-- HEADER -->
+        <div class="mb-4">
+            <h4 class="fw-bold mb-0">
+                Historial de Vacaciones
+            </h4>
+            <small class="text-muted">
+                <span th:text="${periodo.empleado.nombres + ' ' + periodo.empleado.apellidos}"></span>
+                · Periodo
+                <span th:text="${periodo.anio}"></span>
+            </small>
+        </div>
+
+        <!-- TABLA -->
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Fechas</th>
+                        <th>Días</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Fecha decisión</th>
+                        <th>Observación</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="s : ${historial}">
+                        <td
+                            th:text="${#temporals.format(s.fechaInicio,'dd/MM/yyyy')
+                                      + ' → ' +
+                                      #temporals.format(s.fechaFin,'dd/MM/yyyy')}">
+                        </td>
+
+                        <td th:text="${s.diasTomados}"></td>
+
+                        <td th:text="${s.tipoVacacion.descripcion}"></td>
+
+                        <!-- ESTADO -->
+                        <td>
+                            <span class="badge"
+                                  th:text="${s.estado}"
+                                  th:classappend="
+                                      ${s.estado == T(com.laboratoriosdrogavet.core.rrhh.enums.EstadoSolicitud).APROBADA}
+                                      ? ' bg-success'
+                                      : ${s.estado == T(com.laboratoriosdrogavet.core.rrhh.enums.EstadoSolicitud).PENDIENTE}
+                                      ? ' bg-warning text-dark'
+                                      : ' bg-danger'">
+                            </span>
+                        </td>
+
+                        <!-- FECHA DECISIÓN -->
+                        <td th:text="${s.fechaDecision != null
+                            ? #temporals.format(s.fechaDecision,'dd/MM/yyyy')
+                            : '—'}">
+                        </td>
+
+                        <!-- OBSERVACIÓN -->
+                        <td th:text="${s.observacion ?: '—'}"></td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(historial)}">
+                        <td colspan="6"
+                            class="text-center text-muted py-4">
+                            No existen solicitudes registradas en este periodo
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="mt-4 d-flex gap-2">
+
+            <a th:href="@{/rrhh/vacaciones/periodos/{id}(id=${periodo.id})}"
+               class="btn btn-secondary">
+                Volver al periodo
+            </a>
+
+            <a th:href="@{/rrhh/vacaciones/periodos/{id}/resumen(id=${periodo.id})}"
+               class="btn btn-outline-primary">
+                Ver resumen
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

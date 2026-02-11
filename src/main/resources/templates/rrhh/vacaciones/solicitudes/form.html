@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Solicitud de Vacaciones</title>
+</head>
+
+<body>
+<div th:fragment="content">
+
+    <div class="container mt-4">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Solicitud de Vacaciones</h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- EMPLEADO -->
+                        <div class="mb-3">
+                            <strong>Empleado:</strong>
+                            <span th:text="${empleado.nombres + ' ' + empleado.apellidos}"></span>
+                        </div>
+
+                        <form th:action="@{/rrhh/vacaciones/solicitudes}" method="post">
+
+                            <!-- CSRF (si usas Spring Security) -->
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}" />
+
+                            <input type="hidden"
+                                   name="empleadoId"
+                                   th:value="${empleado.id}" />
+
+                            <!-- FECHA INICIO -->
+                            <div class="mb-3">
+                                <label class="form-label">Fecha inicio</label>
+                                <input type="date"
+                                       name="fechaInicio"
+                                       class="form-control"
+                                       required
+                                       onchange="calcularDias()">
+                            </div>
+
+                            <!-- FECHA FIN -->
+                            <div class="mb-3">
+                                <label class="form-label">Fecha fin</label>
+                                <input type="date"
+                                       name="fechaFin"
+                                       class="form-control"
+                                       required
+                                       onchange="calcularDias()">
+                            </div>
+
+                            <!-- DÍAS -->
+                            <div class="mb-3">
+                                <label class="form-label">Días solicitados</label>
+                                <input type="number"
+                                       id="dias"
+                                       class="form-control"
+                                       readonly>
+                                <small class="text-muted">
+                                    Cálculo referencial, validado por RRHH
+                                </small>
+                            </div>
+
+                            <!-- TIPO -->
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de vacaciones</label>
+                                <select name="tipoVacacion"
+                                        class="form-select"
+                                        required>
+                                    <option value="">Seleccione</option>
+                                    <option th:each="t : ${tiposVacacion}"
+                                            th:value="${t}"
+                                            th:text="${t.descripcion}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- OBSERVACIÓN -->
+                            <div class="mb-3">
+                                <label class="form-label">Observación</label>
+                                <textarea name="observacion"
+                                          class="form-control"
+                                          rows="3"
+                                          placeholder="Opcional"></textarea>
+                            </div>
+
+                            <!-- BOTONES -->
+                            <div class="d-flex justify-content-end gap-2">
+                                <a th:href="@{/rrhh/vacaciones/periodos/empleado/{id}(id=${empleado.id})}"
+                                   class="btn btn-secondary">
+                                    Cancelar
+                                </a>
+
+                                <button type="submit"
+                                        id="btnEnviar"
+                                        class="btn btn-primary">
+                                    Enviar solicitud
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function calcularDias() {
+        const inicioInput = document.querySelector('[name="fechaInicio"]');
+        const finInput = document.querySelector('[name="fechaFin"]');
+        const diasInput = document.getElementById("dias");
+        const btn = document.getElementById("btnEnviar");
+
+        const inicio = inicioInput.value;
+        const fin = finInput.value;
+
+        diasInput.value = "";
+        btn.disabled = false;
+
+        if (!inicio || !fin) return;
+
+        const f1 = new Date(inicio);
+        const f2 = new Date(fin);
+
+        if (f2 < f1) {
+            diasInput.value = 0;
+            btn.disabled = true;
+            return;
+        }
+
+        const dias = Math.ceil((f2 - f1) / (1000 * 60 * 60 * 24)) + 1;
+        diasInput.value = dias;
+    }
+</script>
+
+</body>
+</html>

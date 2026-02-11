@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.laboratoriosdrogavet.core.rrhh.enums.Afp;
+import com.laboratoriosdrogavet.core.rrhh.enums.Banco;
 import com.laboratoriosdrogavet.core.rrhh.enums.Cargo;
 import com.laboratoriosdrogavet.core.rrhh.enums.RegimenLaboral;
 import com.laboratoriosdrogavet.core.rrhh.enums.SistemaPension;
@@ -127,10 +129,10 @@ public class Empleado {
     // =========================
     // DATOS ADMINISTRATIVOS
     // =========================
-
-    @Size(max = 100)
-    @Column(length = 100)
-    private String banco;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(length = 100, nullable = false)
+    private Banco banco;
 
     @Size(max = 30)
     @Column(length = 30)
@@ -141,9 +143,12 @@ public class Empleado {
     @Column(length = 10)
     private SistemaPension sistemaPension;
 
-    @Size(max = 100)
-    @Column(length = 100)
-    private String afp;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    private Afp afp;
+    
+    
 
     @Size(max = 50)
     @Column(length = 50)

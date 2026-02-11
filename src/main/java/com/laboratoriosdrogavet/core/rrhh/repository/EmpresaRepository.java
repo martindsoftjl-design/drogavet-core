@@ -6,5 +6,5 @@ import com.laboratoriosdrogavet.core.rrhh.model.Empresa;
 
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
 	
-	
+	 boolean existsByRuc(String ruc);
 }

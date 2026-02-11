@@ -120,11 +120,14 @@ public class PeriodoVacaciones {
     @PrePersist
     @PreUpdate
     private void calcularSaldo() {
-        this.saldo = Math.max(0, this.diasGanados - this.diasTomados);
+        this.saldo = this.diasGanados - this.diasTomados;
     }
+
 
     // ⚠️ Saldo NO debe modificarse manualmente
     protected void setSaldo(int saldo) {
         this.saldo = saldo;
     }
+    
+
 }

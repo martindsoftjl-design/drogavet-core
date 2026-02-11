@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout-rrhh :: layout(
+            ~{::title},
+            ~{::content},
+            ~{},
+            ~{}
+      )}">
+
+<head>
+    <title>Empresas | RR.HH</title>
+</head>
+
+<div th:fragment="content" class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-semibold mb-1">Empresas</h2>
+            <p class="text-muted mb-0">
+                Gestión de empresas registradas en el sistema
+            </p>
+        </div>
+
+        <a th:href="@{/rrhh/empresas/nuevo}"
+           class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Nueva empresa
+        </a>
+    </div>
+
+    <!-- MENSAJES -->
+    <div th:if="${mensaje != null}"
+         class="alert alert-dismissible fade show"
+         th:classappend="' alert-' + ${tipo}">
+        <span th:text="${mensaje}"></span>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>RUC</th>
+                    <th>Razón social</th>
+                    <th>Nombre comercial</th>
+                    <th>Dirección</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center" style="width: 160px;">
+                        Acciones
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="empresa : ${empresas}">
+                    <td th:text="${empresa.ruc}"></td>
+
+                    <td>
+                        <strong th:text="${empresa.razonSocial}"></strong>
+                    </td>
+
+                    <td th:text="${empresa.nombreComercial ?: '-'}"></td>
+                    <td th:text="${empresa.direccion}"></td>
+
+                    <td class="text-center">
+                        <span th:if="${empresa.activo}"
+                              class="badge bg-success">
+                            Activa
+                        </span>
+                        <span th:unless="${empresa.activo}"
+                              class="badge bg-secondary">
+                            Inactiva
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+
+                        <div class="d-inline-flex gap-1">
+
+                            <a th:href="@{/rrhh/empresas/editar/{id}(id=${empresa.id})}"
+                               class="btn btn-sm btn-outline-warning"
+                               title="Editar empresa">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <a th:href="@{/rrhh/empresas/eliminar/{id}(id=${empresa.id})}"
+                               class="btn btn-sm btn-outline-danger btn-eliminar"
+                               title="Eliminar empresa"
+                               data-nombre="empresa">
+                                <i class="bi bi-trash"></i>
+                            </a>
+
+                        </div>
+
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(empresas)}">
+                    <td colspan="6"
+                        class="text-center py-4 text-muted">
+                        No hay empresas registradas
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- VOLVER -->
+    <div class="mt-4">
+        <a th:href="@{/rrhh}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Volver a RR.HH
+        </a>
+    </div>
+
+</div>
+
+</html>
